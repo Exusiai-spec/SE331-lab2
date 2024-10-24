@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue';
-import type { Event } from '@/types'
+import type { Event } from '@/type'
 import { ref } from 'vue'
 const events = ref<Event[]>([
   {
