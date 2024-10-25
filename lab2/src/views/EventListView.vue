@@ -4,7 +4,7 @@ import type { Event } from '@/type'
 import { ref,onMounted } from 'vue'
 import EventService from '@/services/EventService'
 
-const events = ref<Event[]>(null)
+const events = ref<Event[]>([])
 onMounted(() => {
   EventService.getEvents()
     .then((response) => {
