@@ -11,6 +11,7 @@ export interface Event {
       name: string
       gpa: number
       surname: string
+      categories: string
 
     }
     
