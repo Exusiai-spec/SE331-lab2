@@ -18,19 +18,6 @@ const router = createRouter({
       props: (route) => ({ page: parseInt(route.query.page?.toString() || '1') })
      },
     {
-       path: '/event/:id/register',
-       name: 'event-register-view',
-       component: EventRegisterView,
-       props: true
-    },
-    {
-       path: '/event/:id/edit',
-       name: 'event-edit-view',
-       component: EventEditView,
-       props: true
-    },
-      
-    {
       path: '/about',
       name: 'about',
       // route level code-splitting
