@@ -1,55 +1,85 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue';
-import { type Event } from '@/types'
-import { ref,onMounted,computed,watchEffect } from 'vue'
-import EventService from '@/services/EventService'
+import { type Event } from '@/types';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import EventService from '@/services/EventService';
 
-const events = ref<Event[] | null>(null)
-const totalEvents = ref(0)
-const hasNexPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / 2)
-  return page.value < totalPages
-})
+// const route = useRoute();
+const router = useRouter();
+
+const events = ref<Event[] | null>(null);
+const totalEvents = ref(0);
+const pageSize = ref(2); // 默认每页显示的事件数量
 
 const props = defineProps({
   page: {
     type: Number,
-    required: true
+    required: true,
+  },
+});
+
+const page = computed(() => props.page);
+
+const hasNexPage = computed(() => {
+  const totalPages = Math.ceil(totalEvents.value / pageSize.value);
+  return page.value < totalPages;
+});
+
+const fetchData = async () => {
+  try {
+    const response = await EventService.getEvents(pageSize.value, page.value);
+    events.value = response.data;
+    totalEvents.value = parseInt(response.headers['x-total-count']);
+  } catch (error) {
+    console.error('There was an error!', error);
   }
-})
-const page = computed(() => props.page)
+};
 
-onMounted(() => {
-  watchEffect(() => {
-    events.value = null
-    EventService.getEvents(2, page.value)
-      .then((response) => {
-        events.value = response.data
-        totalEvents.value = response.headers['x-total-count']
-      })
-      .catch((error) => {
-        console.error('There was an error!', error)
-      })
-  })
+onMounted(fetchData);
 
-})
+watch([pageSize, page], () => {
+  fetchData();
+  updateQueryParams();
+});
 
-
+const updateQueryParams = () => {
+  router.push({
+    name: 'event-list-view',
+    query: {
+      page: page.value,
+      pageSize: pageSize.value,
+    },
+  });
+};
 </script>
-
 
 <template>
   <h1>Events For Good</h1>
-  <!-- new element -->
-<div class="events">
-<EventCard v-for="event in events" :key="event.id" :event="event" />
-  <div class="pagination">
-  <RouterLink id="page-prev" :to="{ name: 'event-list-view', query: { page: page - 1 } }" rel="prev" v-if="page != 1">&#60; Prev Page</RouterLink>
-  <RouterLink id="page-next" :to="{ name: 'event-list-view', query: { page: page + 1 } }" rel="next" v-if="hasNexPage">Next Page &#62;</RouterLink>
+  <div class="events">
+    <select v-model="pageSize">
+      <option value="2">2 per page</option>
+      <option value="5">5 per page</option>
+      <option value="10">10 per page</option>
+    </select>
+    <EventCard v-for="event in events" :key="event.id" :event="event" />
+    <div class="pagination">
+      <RouterLink
+        id="page-prev"
+        :to="{ name: 'event-list-view', query: { page: page - 1, pageSize: pageSize } }"
+        rel="prev"
+        v-if="page !== 1"
+        >&#60; Prev Page</RouterLink
+      >
+      <RouterLink
+        id="page-next"
+        :to="{ name: 'event-list-view', query: { page: page + 1, pageSize: pageSize } }"
+        rel="next"
+        v-if="hasNexPage"
+        >Next Page &#62;</RouterLink
+      >
     </div>
   </div>
-
-
 </template>
 
 <style scoped>
@@ -75,6 +105,4 @@ onMounted(() => {
 #page-next {
   text-align: right;
 }
-
 </style>
-
