@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue';
 import { type Event } from '@/types';
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watchEffect } from 'vue';
+import nProgress from 'nprogress'
 import { useRouter } from 'vue-router';
 import EventService from '@/services/EventService';
 
@@ -38,10 +39,21 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-watch([pageSize, page], () => {
-  fetchData();
-  updateQueryParams();
-});
+// watch([pageSize, page], () => {
+//   fetchData();
+//   updateQueryParams();
+// });
+watchEffect(() => {
+    events.value = null
+    EventService.getEvents(2, page.value)
+      .then((response) => {
+        events.value = response.data
+      })
+      .catch((error) => {
+        console.error('There was an error!', error)
+      })
+
+  })
 
 const updateQueryParams = () => {
   router.push({
