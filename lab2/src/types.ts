@@ -1,3 +1,7 @@
+export interface MessageState {
+  message: string
+}
+
 export interface Event {
       id: number
       category: string
@@ -14,4 +18,4 @@ export interface Event {
       categories: string
 
     }
-    
+
