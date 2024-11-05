@@ -16,10 +16,9 @@ const { message } = storeToRefs(store)
 
   <div class="wrapper">
   <nav>
-<RouterLink to="/"> Event </RouterLink>| 
-<RouterLink to="/about"> categories and organizer name </RouterLink>|
-<RouterLink to="/event/5928101"> EventDetail-CAD </RouterLink>|
-<RouterLink to="/student_information"> Student </RouterLink>|
+<RouterLink to="{name: 'event-list-view'}"> Event </RouterLink>| 
+<RouterLink to="{name: 'about'}"> categories and organizer name </RouterLink>|
+<RouterLink to="{name:'student-information'}"> Student </RouterLink>|
  </nav>
  </div>
 </header>
