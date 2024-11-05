@@ -23,7 +23,8 @@ const props = defineProps({
 const page = computed(() => props.page);
 
 const hasNexPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / pageSize.value);
+  // const totalPages = Math.ceil(totalEvents.value / pageSize.value);
+  const totalPages = Math.ceil(totalEvents.value / 3)
   return page.value < totalPages;
 });
 
@@ -44,8 +45,7 @@ onMounted(fetchData);
 //   updateQueryParams();
 // });
 watchEffect(() => {
-    events.value = null
-    EventService.getEvents(2, page.value)
+   EventService.getEvents(3, page.value)
       .then((response) => {
         events.value = response.data
       })
