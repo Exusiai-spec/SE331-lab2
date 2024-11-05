@@ -1,7 +1,10 @@
 export interface MessageState {
   message: string
 }
-
+export interface EventState {
+    event: Event | null
+  }
+  
 export interface Event {
       id: number
       category: string
