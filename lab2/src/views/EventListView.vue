@@ -45,6 +45,8 @@ onMounted(fetchData);
 //   updateQueryParams();
 // });
 watchEffect(() => {
+   events.value = null
+   nProgress.start()
    EventService.getEvents(3, page.value)
       .then((response) => {
         events.value = response.data
@@ -68,7 +70,7 @@ const updateQueryParams = () => {
 
 <template>
   <h1>Events For Good</h1>
-  <div class="events">
+  <div class="flex flex-col items-center">
     <select v-model="pageSize">
       <option value="2">2 per page</option>
       <option value="5">5 per page</option>
@@ -95,11 +97,7 @@ const updateQueryParams = () => {
 </template>
 
 <style scoped>
-.events {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 .pagination {
   display: flex;
   width: 290px;
