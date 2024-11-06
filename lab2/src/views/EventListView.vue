@@ -47,7 +47,7 @@ onMounted(fetchData);
 watchEffect(() => {
    events.value = null
    nProgress.start()
-   EventService.getEvents(3, page.value)
+   EventService.getEvents(pageSize.value, page.value)
       .then((response) => {
         events.value = response.data
       })
