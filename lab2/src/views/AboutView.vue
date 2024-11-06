@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HomeCard from '@/components/HomeCard.vue';
-import type { Event } from '@/types'
+import { type Event } from '@/types'
 import { ref,onMounted } from 'vue'
 import EventService from '@/services/EventService'
 
