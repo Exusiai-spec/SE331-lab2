@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { type Event } from "@/types"
+import { type Student } from "@/types"
 defineProps<{
-  event:Event
+  student : Student
 }>()
 // const event = ref({
   // id: 5928101,
@@ -20,8 +20,8 @@ defineProps<{
 <template>
  <div class="event-class">
    <div class="event-card">
-     <h2>{{ event.name }} {{ event.surname }}</h2>
-     <span>GPA is : {{ event.gpa }}</span>
+     <h2>{{ student.name }} {{ student.surname }}</h2>
+     <span>GPA is : {{ student.gpa }}</span>
    </div>
  </div>
 

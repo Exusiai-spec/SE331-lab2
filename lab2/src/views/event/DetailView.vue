@@ -9,7 +9,7 @@ const { event } = toRefs(props)
 
 </script>
 <template>
-<p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
+<p>{{ event.title }} @ {{ event.location }}</p>
 <p>{{ event.description }}</p>
 
 </template>
